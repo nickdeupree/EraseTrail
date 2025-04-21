@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EraseTrail Options</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>EraseTrail Options</h1>
+      <div class="subtitle">Configure how EraseTrail selectively removes sites from your history</div>
+    </header>
+
+    <div class="tab-container">
+      <div class="tabs">
+        <button class="tab-button active" data-tab="basic">Basic</button>
+        <button class="tab-button" data-tab="advanced">Advanced</button>
+        <button class="tab-button" data-tab="settings">Settings</button>
+      </div>
+    </div>
+
+    <main>
+      <section id="basic-tab" class="tab-content active">
+        <section class="patterns-section">
+          <h2>URL Patterns</h2>
+          <p class="description">
+            Enter URL patterns to block from history. Use * as a wildcard.
+            Examples: <code>*.twitter.com</code>, <code>reddit.com</code>, <code>*.example.org</code>
+          </p>
+          
+          <div class="patterns-list-container">
+            <div class="patterns-header">
+              <label for="new-pattern">Add a new pattern:</label>
+              <div class="pattern-add-container">
+                <input type="text" id="new-pattern" placeholder="*.example.com">
+                <button id="add-pattern" class="btn btn-primary">Add</button>
+              </div>
+            </div>
+            
+            <div class="patterns-summary">
+              <div class="patterns-count-display">
+                <span id="pattern-count">0</span> patterns configured
+              </div>
+              <button id="toggle-patterns-drawer" class="btn btn-secondary">
+                <span class="toggle-icon">▼</span> <span class="toggle-text">Show patterns</span>
+              </button>
+            </div>
+
+            <div id="patterns-drawer" class="patterns-drawer closed">
+              <ul id="patterns-list" class="patterns-list">
+                <!-- Patterns will be inserted here -->
+                <li class="pattern-item loading">Loading patterns...</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="pattern-tester">
+            <h3>Pattern Tester</h3>
+            <div class="tester-container">
+              <input type="text" id="test-url" placeholder="https://example.com">
+              <button id="test-button" class="btn">Test</button>
+            </div>
+            <div id="test-result" class="test-result">
+              Enter a URL above to test if it would be blocked
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="advanced-tab" class="tab-content">
+        <section class="advanced-patterns-section">
+          <h2>Advanced Patterns</h2>
+          <p class="description">
+            Create more specific patterns with regex support and time windows.
+          </p>
+          
+          <div class="advanced-patterns-container">
+            <div class="patterns-header">
+              <label>Pattern Editor:</label>
+              <div class="advanced-pattern-editor">
+                <div class="input-group">
+                  <input type="text" id="advanced-pattern" placeholder="*.example.com or ^https://(www\.)?example\.com.*">
+                  <select id="pattern-type">
+                    <option value="wildcard">Wildcard</option>
+                    <option value="regex">Regex</option>
+                  </select>
+                </div>
+                <div class="time-window-container">
+                  <div class="checkbox-container">
+                    <input type="checkbox" id="use-time-window">
+                    <label for="use-time-window">Use time window</label>
+                  </div>
+                  <div class="time-inputs">
+                    <div class="time-input-group">
+                      <label for="time-from">From:</label>
+                      <input type="time" id="time-from" disabled>
+                    </div>
+                    <div class="time-input-group">
+                      <label for="time-to">To:</label>
+                      <input type="time" id="time-to" disabled>
+                    </div>
+                  </div>
+                </div>
+                <button id="add-advanced-pattern" class="btn btn-primary">Add Pattern</button>
+              </div>
+            </div>
+            
+            <div class="advanced-patterns-summary">
+              <div class="patterns-count-display">
+                <span id="advanced-pattern-count">0</span> advanced patterns configured
+              </div>
+              <button id="toggle-advanced-patterns-drawer" class="btn btn-secondary">
+                <span class="toggle-icon">▼</span> <span class="toggle-text">Show patterns</span>
+              </button>
+            </div>
+
+            <div id="advanced-patterns-drawer" class="patterns-drawer closed">
+              <table id="advanced-patterns-table">
+                <thead>
+                  <tr>
+                    <th>Pattern</th>
+                    <th>Type</th>
+                    <th>Time Window</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="advanced-patterns-list">
+                  <!-- Advanced patterns will appear here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="pattern-tester">
+            <h3>Live Test</h3>
+            <div class="tester-container">
+              <input type="text" id="advanced-test-url" placeholder="https://example.com">
+              <span class="current-time">Current time: <span id="current-time-display">--:--</span></span>
+              <button id="advanced-test-button" class="btn">Test</button>
+            </div>
+            <div id="advanced-test-result" class="test-result">
+              Enter a URL above to test if it matches any pattern
+            </div>
+          </div>
+        </section>
+      </section>
+      
+      <section id="settings-tab" class="tab-content">
+        <section class="settings-section">
+          <h2>Settings</h2>
+          
+          <div class="setting-group">
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="delete-delay">Deletion delay (seconds)</label>
+                <div class="setting-description">
+                  Wait this many seconds before removing history entries. 
+                  Useful to keep the back button working temporarily.
+                </div>
+              </div>
+              <div class="setting-control">
+                <input type="number" id="delete-delay" min="0" max="60" step="1" value="0">
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="delete-on-tab-close">Delete on tab close</label>
+                <div class="setting-description">
+                  Wait until tab is closed before removing history entry.
+                  Improves browsing fluidity while keeping your trails clean.
+                </div>
+              </div>
+              <div class="setting-control">
+                <label class="switch">
+                  <input type="checkbox" id="delete-on-tab-close">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="use-containers">Use container tabs</label>
+                <div class="setting-description">
+                  Open blocked sites in temporary containers to avoid writing history entries
+                </div>
+              </div>
+              <div class="setting-control">
+                <label class="switch">
+                  <input type="checkbox" id="use-containers">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="session-only-mode">Session-only mode</label>
+                <div class="setting-description">
+                  Only track and delete matched URLs when browser is closed
+                </div>
+              </div>
+              <div class="setting-control">
+                <label class="switch">
+                  <input type="checkbox" id="session-only-mode">
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="show-notifications">Show notifications</label>
+                <div class="setting-description">
+                  Show a notification when visiting a protected site
+                </div>
+              </div>
+              <div class="setting-control">
+                <label class="switch">
+                  <input type="checkbox" id="show-notifications" checked>
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="setting-item">
+              <div class="setting-info">
+                <label for="theme-select">Theme</label>
+                <div class="setting-description">
+                  Choose the theme for EraseTrail
+                </div>
+              </div>
+              <div class="setting-control">
+                <select id="theme-select">
+                  <option value="system">System Default</option>
+                  <option value="light">Light</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <section class="wipe-history-section">
+          <h2>History Management</h2>
+          <div class="setting-group">
+            <div class="setting-item">
+              <div class="setting-info">
+                <h3>Retroactive History Wipe</h3>
+                <div class="setting-description">
+                  Remove all previous visits to sites matching your patterns
+                </div>
+              </div>
+              <div class="setting-control">
+                <button id="wipe-history-button" class="btn btn-danger">Purge Matching History</button>
+              </div>
+            </div>
+            <div id="wipe-status" class="status-message"></div>
+          </div>
+        </section>
+
+        <section class="import-export-section">
+          <h2>Import/Export</h2>
+          <div class="import-export-controls">
+            <div>
+              <button id="export-button" class="btn">Export Settings</button>
+              <button id="import-button" class="btn">Import Settings</button>
+            </div>
+            <input type="file" id="import-file" accept=".json" style="display: none;">
+          </div>
+          <div id="import-export-status" class="status-message"></div>
+        </section>
+      </section>
+    </main>
+
+    <footer>
+      <div class="status-message" id="save-status"></div>
+      <div class="buttons" style="display: flex; gap: 10px; align-items: center;">
+      <a href="https://buymeacoffee.com/ncwd" id="donate-button" class="btn btn-support" target="_blank" style="text-decoration: none;">Support this project ☕</a>
+      </div>
+    </footer>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>

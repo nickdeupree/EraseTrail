@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>EraseTrail</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>EraseTrail</h1>
+      <div class="subtitle">Selective amnesia for your browser history</div>
+    </div>
+
+    <div class="content">
+      <div class="status-section">
+        <div class="site-info">
+          <div class="label">Current site:</div>
+          <div id="current-site">Loading...</div>
+        </div>
+
+        <div class="protection-status">
+          <div class="label">Protection status:</div>
+          <div class="status-indicator" id="status-indicator">
+            <span id="status-text">Checking...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="toggle-section">
+        <button id="toggle-protection" class="toggle-button">
+          Toggle Protection
+        </button>
+        <div class="pattern-preview">
+          <span class="label">Pattern:</span>
+          <span id="pattern-preview">*.example.com</span>
+        </div>
+      </div>
+
+      <div id="whitelist-section" class="whitelist-section hidden" style="display: none;">
+        <button id="whitelist-button" class="whitelist-button hidden">
+          Don't block this site anymore
+        </button>
+      </div>
+
+      <div class="stats-section">
+        <div class="stat">
+          <span class="label">Entries removed:</span>
+          <span id="deletion-counter">0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button id="open-options" class="link-button">Options</button>
+      <a href="https://buymeacoffee.com/ncwd" id="donate-button" class="link-button" target="_blank">Support</a>
+      <div class="version">v1.1</div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
